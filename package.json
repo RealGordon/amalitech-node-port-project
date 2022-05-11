@@ -1,0 +1,25 @@
+{
+  "name": "card-app",
+  "description": "Invitation business  card distribution App",
+  "version": "0.0.1",
+  "private": true,
+  "license": "Apache-2.0",
+  "author": "Gordon Amamoo",
+  "repository": {
+    "type": "git",
+    "url":"https://github.com/RealGordon/amalitech-node-port-project.git"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "scripts": {
+    "start": "node app.js"
+    
+  },
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+  
+  }
+}
