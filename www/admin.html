@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>Admin</title>
+    <title>Email Sender</title>
 <!--
     upload files with title and description 
 -->
@@ -13,9 +13,24 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-  <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-auth-compat.js"></script>
-  <script type="text/javascript" src="js/user_listener.js"></script>
+  <!--<script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-auth-compat.js"></script>-->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+  <!--  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>-->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js"></script>
+    <script >
+        const firebaseConfig = {
+ apiKey: "AIzaSyA2KD1q0L0Kd4CWGlaBWmtrpGOYqjgbGoM",
+ authDomain: "amalitech-node-project.firebaseapp.com",
+ projectId: "amalitech-node-project",
+ storageBucket: "amalitech-node-project.appspot.com",
+ messagingSenderId: "409195901017",
+ appId: "1:409195901017:web:c34d1f9d71ef933945c148"
+};
+firebase.initializeApp(firebaseConfig);
+      </script>
+    <script defer type="text/javascript" src="js/user_listener.js"></script>
   <style>
     body {
       font-family: Arial, Helvetica, sans-serif;
@@ -104,7 +119,7 @@
       }
     }
   </style>
-
+<script defer src="js/upload.js"></script>
 </head>
 <body><div class="w3-bar w3-black">
     <a class="w3-bar-item w3-button tablink" href="/">HOME</a>
@@ -116,22 +131,46 @@
 
   <form name="docForm" action="/upload/doc" method="POST" enctype="multipart/form-data">
     <div class="w3-container">
+      <fieldset class="w3-container w3-margin">
+        <legend>Customer/User Details</legend>
+        <label></label><br>
+        <input name="customerId" required>
+        </fieldset>
+      <fieldset class="w3-container w3-margin">
+        <legend>Title</legend>
+      <input type="radio" name="category" value="invitation">
+      <label>Invitation Card</label><br>
+      <input type="radio" name="category" value="form">
+      <label>Form</label><br>
+      <input type="radio" name="category" value="greeting">
+      <label>Greeting card</label><br>
+      
+      <input type="radio" name="category" value="other">
+      
+      <input type="text" name="otherCategory" >
+    </fieldset>
+    <div class="w3-container w3-margin">
       <label for="myfile">Select your File:</label>
-      <input type="file" id="myfile" name="cardFile" class="w3-input" required><br><br>
-
+      <input type="file" id="myfile" name="cardFile" class="w3-input"
+      accept=".pdf, .jpg, .jpeg, .png, .doc, .docx, application/msword"
+      required><br><br>
+    </div>
     </div>
     <div class="container">
       <fieldset class="w3-container w3-margin">
         <legend>Title</legend>
-        <input  class="w3-input" placeholder="title goes here..." name="title">
-        <label> BANKING</label><br>
+        <label></label><br>
+        <input  class="w3-input" placeholder="title goes here..." name="title"> 
         <input type="hidden" name="other">
       </fieldset>
       <fieldset class="w3-container w3-margin">
         <legend>Title</legend>
-        <textarea placeholder="description goes here ..." class="w3-input" name="description"></textarea>
+        <label></label><br>
+        <textarea placeholder="description goes here ..." class="w3-input" 
+        name="description"></textarea>    
         </fieldset>
     </div>
+    <input type="submit">
     </form>
 </body>
 <div class="w3-container">
