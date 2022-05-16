@@ -1,0 +1,31 @@
+* {
+  box-sizing: border-box;
+}
+
+.search-bar {
+  font-family: sans-serif;
+  margin: 15px;
+  width: 300px;
+  position: relative;
+}
+.search-bar .search-bar__input {
+  width: 100%;
+  padding: 15px;
+  font-size: 1.3em;
+}
+.search-bar .search-bar__autocomplete-container {
+  border: 1px solid black;
+  width: 100%;
+  position: absolute;
+  background-color: #fff;
+}
+.search-bar .search-bar__autocomplete-container .search-bar__autocomplete-item {
+  padding: 10px;
+}
+.search-bar .search-bar__autocomplete-container .search-bar__autocomplete-item:hover {
+  background-color: #66f;
+  cursor: pointer;
+  user-select: none;
+}
+
+/*# sourceMappingURL=index.css.map */
