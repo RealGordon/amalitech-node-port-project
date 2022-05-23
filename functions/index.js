@@ -1,3 +1,12 @@
+
+
+// // Create and Deploy Your First Cloud Functions
+// // https://firebase.google.com/docs/functions/write-firebase-functions
+//
+// exports.helloWorld = functions.https.onRequest((request, response) => {
+//  response.send("Hello from Firebase!");
+// });
+// The Cloud Functions for Firebase SDK to create Cloud Functions and set up triggers.
 const functions = require('firebase-functions');
 
 // The Firebase Admin SDK to access Firestore.
@@ -10,20 +19,27 @@ exports.createUserDoc = functions.auth.user().onCreate(async (user) => {
       const email = user.email; // The email of the user.
       const displayName = user.displayName; // The display name of the user.
       // [END eventAttributes]
+      try{
       await admin.firestore().collection(
-          'users').add(
+          'users').doc(user.uid.substring(0,10)).set(
           {
              name:displayName,
             email:email,
             status:true,
-            uid:user.uid,
+            id:user.uid,
             test:'local functions'
         });
+        functions.logger.log('user created success ',email);
+      }
+      catch(e){
+        functions.logger.log('user creation error ',email);
+        functions.logger.log(e);
+      }
       
     });
     //firebase functions:config:set gmail.email="myusername@gmail.com" gmail.password="secretpassword"
-    const gmailEmail ='sukuuhubonline@gmail.com'; //functions.config().gmail.email;
-    const gmailPassword = '###123hub';//functions.config().gmail.password;
+    const gmailEmail =functions.config().gmail.email;
+    const gmailPassword =functions.config().gmail.password;
     const mailTransport = nodemailer.createTransport({
       service: 'gmail',
       auth: {
@@ -32,8 +48,9 @@ exports.createUserDoc = functions.auth.user().onCreate(async (user) => {
       },
     });
     async function sendEmail(recipientEmail, displayName, APP_NAME,text,fileBlob,fn) {
-        const mailOptions = {
-          from: `${APP_NAME} <noreply@amalitech.org>`,
+      
+      const mailOptions = {
+          from: `${APP_NAME} <noreply@carddistributer.org>`,
           to: recipientEmail,
           attachments:[{filename:fn||'file.jpg',content:fileBlob}]
         };
@@ -53,18 +70,31 @@ exports.SendUserEmail = functions.firestore.document('/emailSender/{documentId}'
 .onCreate(async (snap, context) => {
   // Grab the current value of what was written to Firestore.
   const data=snap.data();
-  const text = data.text;
+  const text = {message:data.message,subject:data.subject};
   const recipient= data.recipient;
   const sender=data.sender||'firestore@tester.org';
   const company=data.company||'card distributer';
-  const fileName=data.category+'/'+data.filename;
-  //TODO : download the file
+  const file=data.files[0];
+  const filePath=file.fileId;
+  
 
   const storage=admin.storage();
-  const fileBlob = await storage.bucket().file(fileName).download();
+  var fileBlob;
   try{
-  await sendEmail(recipient, sender, company,text,fileBlob,data.filename)
-  }catch{
+   fileBlob = await storage.bucket('amalitech-node-project.appspot.com').file(
+    filePath).download()[0];
+  }
+  catch(e){
+    functions.logger.log('error occurred while downloading file from gcs ',
+    file.filename);
+  }
+  try{
+  await sendEmail(recipient, sender, company,text,fileBlob,file.filename);
+  await admin.firestore().collection('emailSender').doc(context.params.documentId)
+  .set({status:'sent'},{merge:true})
+  }catch (e){
+    functions.logger.log('error occurred while sending email for ',recipient);
+    functions.logger.log(e);
    return  admin.firestore().collection('emailSender').doc(context.params.documentId)
     .set({status:'error'},{merge:true})
   }
@@ -78,8 +108,7 @@ exports.SendUserEmail = functions.firestore.document('/emailSender/{documentId}'
   // writing to Firestore.
   // Setting an 'uppercase' field in Firestore document returns a Promise.
   //return snap.ref.parent.parent.parent.doc()set({uppercase}, {merge: true});
-  admin.firestore().collection('emailSender').doc(context.params.documentId)
-  .set({status:'sent'},{merge:true})
+  
 });
 async function downloadIntoMemory() {
   // Downloads the file into a buffer in memory.
