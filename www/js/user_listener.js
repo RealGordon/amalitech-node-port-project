@@ -1,5 +1,5 @@
 
-      initApp = function() {
+      initApp = async function(startFunc) {
         firebase.auth().onAuthStateChanged(function(user) {
           if (user) {
             // User is signed in.
@@ -10,9 +10,13 @@
             var uid = user.uid;
             var phoneNumber = user.phoneNumber;
             var providerData = user.providerData;
+            window.user={uid};
+            if(startFunc)startFunc(user);
+            document.getElementById('avatar').children[1].textContent = displayName;
+            /*
             user.getIdToken().then(function(accessToken) {
               document.getElementById('sign-in-status').textContent = 'Signed in';
-              document.getElementById('sign-in').textContent = 'Sign out';
+              
               document.getElementById('account-details').textContent = JSON.stringify({
                 displayName: displayName,
                 email: email,
@@ -23,19 +27,19 @@
                 accessToken: accessToken,
                 providerData: providerData
               }, null, '  ');
-            });
+            });*/
           } else {
             // User is signed out.
-            document.getElementById('sign-in-status').textContent = 'Signed out';
-            document.getElementById('sign-in').textContent = 'Sign in';
+            console.log('Signed out')
+            console.log('account-details null')
+            /*
+            document.getElementById('sign-in-status').textContent = 'Signed out';  
             document.getElementById('account-details').textContent = 'null';
+            */
           }
         }, function(error) {
           console.log(error);
         });
       };
-
-      window.addEventListener('load', function() {
-        initApp()
-      });
-  
+   
+     

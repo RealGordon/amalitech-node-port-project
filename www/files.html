@@ -2,12 +2,14 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>User</title>
+    <title>Files</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
   <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js"></script>
     <script>
         const firebaseConfig = {
  apiKey: "AIzaSyA2KD1q0L0Kd4CWGlaBWmtrpGOYqjgbGoM",
@@ -19,38 +21,34 @@
 };
 firebase.initializeApp(firebaseConfig);
       </script>
-    <script type="text/javascript" src="/static/js/user_listener.js"></script>
-<!--search the file server
-
--->
-
-<!--
-    send a file to an email through the platform
--->
-
-<!--
-    see the feed page that contains a kl=list of files that can be downloaded
--->
-
-<!--sign up and login with email account verification 
-reset password feature to recover lost passwords-->
-</head>
-<body>
+<script defer type="text/javascript" src="js/user_listener.js"></script>
+         <script src="https://unpkg.com/react@17.0.2/umd/react.development.js"></script>
+         <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.development.js"></script>
+         
+         <script defer src="https://unpkg.com/babel-standalone@6.26.0/babel.min.js"></script>
+    
+    <script  type="text/babel" src="js/files.js"></script>
+   <link href="css/contact.css" rel="stylesheet" />
+    </head>
+    <body>
     <div class="w3-bar w3-black">
         <a class="w3-bar-item w3-button tablink" href="/">Home</a>
-        <a class="w3-bar-item w3-button tablink" href="files.html">Files</a>
+        
         <a class="w3-bar-item w3-button tablink" href="emailSender.html">Email Sender</a>
         <div class="w3-right">
-          <div id="avatar" class="chip">
-            <img  src="images/img_avatar_man.png" alt="Person" width="96" height="96">
-            <span></span>
-          </div></div>
+        <div id="avatar" class="chip">
+          <img  src="images/img_avatar_man.png" alt="Person" width="96" height="96">
+          <span></span>
+        </div></div>
       </div>
       <div class="w3-main" style="margin-left: 200px;">
       <h1>User Console</h1>
+      <h2>files</h2>
+      <ul id="file-list" class="w3-ul w3-card-4" style="max-width: 600px;"></ul>
       <div class="w3-container">
       <div id="files"></div>
 <div id="sign-in-status"></div>
     <div id="sign-in"></div>
     <pre id="account-details"></pre></div></div>
+    
 </body></html>
