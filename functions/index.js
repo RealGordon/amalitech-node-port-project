@@ -13,6 +13,7 @@ const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 const nodemailer = require('nodemailer');
 admin.initializeApp();
+const PROJECT_BUCKET='amalitech-node-project.appspot.com';
 exports.createUserDoc = functions.auth.user().onCreate(async (user) => {
     // [END onCreateTrigger]
       // [START eventAttributes]
@@ -47,12 +48,13 @@ exports.createUserDoc = functions.auth.user().onCreate(async (user) => {
         pass: gmailPassword,
       },
     });
-    async function sendEmail(recipientEmail, displayName, APP_NAME,text,fileBlob,fn) {
+    async function sendEmail(recipientEmail, displayName, APP_NAME,text,attachments) {
       
       const mailOptions = {
           from: `${APP_NAME} <noreply@carddistributer.org>`,
           to: recipientEmail,
-          attachments:[{filename:fn||'file.jpg',content:fileBlob}]
+          //attachments:[{filename:fn||'file.jpg',content:fileBlob}]
+          attachments:attachments
         };
       
         // The user subscribed to the newsletter.
@@ -64,8 +66,8 @@ exports.createUserDoc = functions.auth.user().onCreate(async (user) => {
       }
       
 
-    // Listens for new messages added to /messages/:documentId/original and creates an
-// uppercase version of the message to /messages/:documentId/uppercase
+// Listens for new messages added to /messages/:documentId/
+// and changes value  at  /messages/:documentId/status
 exports.SendUserEmail = functions.firestore.document('/emailSender/{documentId}')
 .onCreate(async (snap, context) => {
   // Grab the current value of what was written to Firestore.
@@ -74,22 +76,27 @@ exports.SendUserEmail = functions.firestore.document('/emailSender/{documentId}'
   const recipient= data.recipient;
   const sender=data.sender||'firestore@tester.org';
   const company=data.company||'card distributer';
-  const file=data.files[0];
-  const filePath=file.fileId;
-  
+  const files=data.files;
+  const fileAttactments=[];
 
   const storage=admin.storage();
-  var fileBlob;
+  
+  if (files.length<=3){
+  files.forEach((file)=>{
+    const filePath=file.fileId;
+    try{
+   const fileBlob = await storage.bucket(PROJECT_BUCKET).file(
+       filePath).download();
+       fileAttactments.push({content:fileBlob[0],filename:file.filename})
+     }
+     catch(e){
+       functions.logger.log('error occurred while downloading file from gcs ',
+       file.filename);
+     }
+  })}
+  
   try{
-   fileBlob = await storage.bucket('amalitech-node-project.appspot.com').file(
-    filePath).download()[0];
-  }
-  catch(e){
-    functions.logger.log('error occurred while downloading file from gcs ',
-    file.filename);
-  }
-  try{
-  await sendEmail(recipient, sender, company,text,fileBlob,file.filename);
+  await sendEmail(recipient, sender, company,text,fileAttactments);
   await admin.firestore().collection('emailSender').doc(context.params.documentId)
   .set({status:'sent'},{merge:true})
   }catch (e){
