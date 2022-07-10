@@ -22,7 +22,7 @@ radio.onchange=onRadioChange;
 uForm.onsubmit=function(e){
     e.preventDefault();
     
-    var loader=new cSpinner('admin-wrapper');
+    var loader=new cSpinner('id0l');
     loader.action();
     var storageRef = firebase.storage().ref();
     var cardFile=this.cardFile;
@@ -76,16 +76,15 @@ uForm.onsubmit=function(e){
 }
 
 const recordUpload=(metadata,id)=>{
-
+  var db=firebase.firestore();
  const batch=db.batch();
  const fileRef=db.collection('files').doc();
  const userFilesRef=db.collection('users').doc(id.substring(0,10)).collection(
-   'files').doc();
+   'files').doc(fileRef.id);
  batch.set(fileRef,{...metadata})
  delete metadata['uid'];
  batch.set(userFilesRef,{...metadata,AdminFileId:fileRef.id})
  return batch.commit()
     
 }
-initApp();
-var db=firebase.firestore();
+
