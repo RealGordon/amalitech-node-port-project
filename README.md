@@ -7,10 +7,9 @@ Lizzy runs a business that distributes documents in the likes of wedding cards, 
 # Customer Requirements
  ### users should be able to:
 1. Signup & log in with an email and password with account verification.
-![plot]()
+ + There should be a reset password feature to recover lost passwords
 
-There should be a reset password feature to recover lost passwords
-![plot]()
+![plot](images/usersignin.JPG)
 
 2. See a feed page that contains a list of files that can be downloaded.
 
@@ -20,5 +19,7 @@ There should be a reset password feature to recover lost passwords
 
 ### Admin
 1. Should be able to upload files with a title and description
+![plot](images/admin_upload.JPG)
 
 2. Should be able to see the number of downloads and number of emails sent for each file
+![plot](images/admin_filehistory.JPG)
