@@ -9,7 +9,7 @@ Lizzy runs a business that distributes documents in the likes of wedding cards, 
 1. Signup & log in with an email and password with account verification.
  + There should be a reset password feature to recover lost passwords
 
-![plot](images/usersignin.JPG)
+![plot](images/user_signin.JPG)
 
 2. See a feed page that contains a list of files that can be downloaded.
 
