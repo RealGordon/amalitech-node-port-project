@@ -10,6 +10,9 @@ This project uses:
  2. Backend: Node.js
  3. Database: Firestore
 
+### ER Diagram
+![plot](images/ER_diagram.jpeg)
+
 ## Customer Requirements
  ### users should be able to:
 1. Signup & log in with an email and password with account verification.
