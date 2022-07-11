@@ -5,9 +5,10 @@ Lizzy runs a business that distributes documents in the likes of wedding cards, 
 
 ## Strategy
 This project uses:
-    1. Frontend: `react` and  `react-router-dom` 
-    2. Backend: Node.js
-    3. Database: Firestore
+
+ 1. Frontend: `react` and  `react-router-dom` 
+ 2. Backend: Node.js
+ 3. Database: Firestore
 
 ## Customer Requirements
  ### users should be able to:
