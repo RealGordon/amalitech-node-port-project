@@ -4,9 +4,10 @@
 Lizzy runs a business that distributes documents in the likes of wedding cards, admission forms etc. on behalf of various businesses to different users. All have been moving well, but she desires to scale her business. After doing research, she finds that having a digital platform where these can be easily accessed and downloaded remotely is a good solution to the scaling challenge she currently faces. She has found you after your relatives in her network defended you to be the right person for the job.
 
 ## Strategy
-    + Frontend: `react` and  `react-router-dom` 
-    + Backend: Node.js
-    + Database: Firestore
+This project uses:
+    1. Frontend: `react` and  `react-router-dom` 
+    2. Backend: Node.js
+    3. Database: Firestore
 
 ## Customer Requirements
  ### users should be able to:
